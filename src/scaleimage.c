@@ -343,17 +343,14 @@ static void scale_image_check_appinfo ( GtkWidget *self, GtkIconTheme *theme,
   if(!app)
     return;
 
-  if( !g_desktop_app_info_get_nodisplay(app) )
+  file = g_desktop_app_info_get_string(app,"Icon");
+  if( (info = gtk_icon_theme_lookup_icon(theme,file,10,0)) )
   {
-    file = g_desktop_app_info_get_string(app,"Icon");
-    if( (info = gtk_icon_theme_lookup_icon(theme,file,10,0)) )
-    {
-      g_object_unref(G_OBJECT(info));
-      priv->fname = g_strdup(file);
-      priv->ftype = SI_ICON;
-    }
-    g_free(file);
+    g_object_unref(G_OBJECT(info));
+    priv->fname = g_strdup(file);
+    priv->ftype = SI_ICON;
   }
+  g_free(file);
 
   g_object_unref(G_OBJECT(app));
 }
