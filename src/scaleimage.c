@@ -381,6 +381,12 @@ static gboolean scale_image_check_icon_1 ( GtkWidget *self, const gchar *icon )
     return TRUE;
   }
 
+  temp = g_strconcat(icon, ".desktop", NULL);
+  scale_image_check_appinfo(self, theme, temp);
+  g_free(temp);
+  if(priv->ftype != SI_NONE)
+    return TRUE;
+
   desktop = g_desktop_app_info_search(icon);
   for(j=0;desktop[j];j++)
   {
@@ -389,12 +395,6 @@ static gboolean scale_image_check_icon_1 ( GtkWidget *self, const gchar *icon )
     g_strfreev(desktop[j]);
   }
   g_free(desktop);
-  
-  if(priv->ftype!=SI_NONE)
-    return TRUE;
-  temp = g_strconcat(icon,".desktop",NULL);
-  scale_image_check_appinfo(self, theme, temp);
-  g_free(temp);
 
   return (priv->ftype!=SI_NONE);
 }
